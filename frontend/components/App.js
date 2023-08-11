@@ -8,6 +8,7 @@ export default class App extends React.Component {
     super();
     this.state = {
       todos: [],
+      error: ''
     }
   }
 
@@ -18,10 +19,12 @@ export default class App extends React.Component {
           ...this.state,
           todos: res.data.data
         })
-        console.log(this.state.todos);
       })
       .catch(err => {
-        console.log(err)
+        this.setState({
+          ...this.state,
+          error: 'Error: ' + err.response.data.message
+        })
       })
   }
 
@@ -32,18 +35,19 @@ export default class App extends React.Component {
   render() {
     return(
       <div className="App">
-        <h1>What I have to do today is...</h1>
-        {
-          this.state.todos.map(todo => {
+        <h1>What do I have to do today?</h1>
+        <div id="error">{this.state.error}</div>
+        <h2>To Do:</h2>
+        <ul  id="todos">
+        {this.state.todos.map(todo => {
             return(
-              <ul key={todo.id} id="todos">
-                <li className="todo">
+                <li key={todo.id} className="todo">
                 {todo.name}
                 </li>
-              </ul>
-            )
+            );
           })
         }
+        </ul>
       </div>
     )
   }
