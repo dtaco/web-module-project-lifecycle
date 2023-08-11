@@ -4,6 +4,7 @@ import axios from 'axios';
 const URL = 'http://localhost:9000/api/todos'
 
 export default class App extends React.Component {
+
   constructor () {
     super();
     this.state = {
@@ -46,9 +47,9 @@ export default class App extends React.Component {
   }
 
   postNewTodo = () => {
-    axios.post(URL, { name: this.state.todoNameInput})
+    axios.post(URL, { name: this.state.todoNameInput, completed: false})
     .then(res => {
-      this.fetchAllTodos()
+      this.setState({...this.state, todos: this.state.todos.concat(res.data.data) })
     })
     .catch(this.setAxiosResError)
   }
@@ -68,8 +69,11 @@ export default class App extends React.Component {
     return(
       <div className="App">
         <h1>What do I have to do today?</h1>
+
         <div id="error">{this.state.error}</div>
+
         <h2>To Do:</h2>
+
         <ul  id="todos">
         {this.state.todos.map(todo => {
             return(
@@ -80,14 +84,18 @@ export default class App extends React.Component {
           })
         }
         </ul>
+
         <form id="form" onSubmit={this.onTodoFormSubmit}>
+
           <input 
           placeholder="What else...?"
           type="text"
           value={this.state.todoNameInput}
           onChange={this.todoNameChange}
           />
+
           <input type="submit" />
+
         </form>
       </div>
     )
