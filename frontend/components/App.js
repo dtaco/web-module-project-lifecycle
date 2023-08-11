@@ -60,6 +60,19 @@ export default class App extends React.Component {
     this.resetForm();
   }
 
+  toggleCompleted = id => () => {
+    axios.patch(`${URL}/${id}`)
+    .then(res => {
+      this.setState({
+        ...this.state, todos: this.state.todos.map(todo => {
+          if(todo.id !== id) return todo;
+          return res.data.data
+        })
+      })
+    })
+    .catch(this.setAxiosResError)
+  }
+
 
   componentDidMount() {
     this.fetchAllTodos()
@@ -77,9 +90,9 @@ export default class App extends React.Component {
         <ul  id="todos">
         {this.state.todos.map(todo => {
             return(
-                <li key={todo.id} className="todo">
-                {todo.name}
-                </li>
+                <li onClick={this.toggleCompleted(todo.id)} key={todo.id} className="todo">
+                ➕ {todo.name}{todo.completed ? ' ✔️' : ''}
+                </li>               
             );
           })
         }

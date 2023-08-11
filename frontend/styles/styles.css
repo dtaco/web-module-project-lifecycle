@@ -78,6 +78,7 @@ ul, form {
 
 .todo {
   padding: 0.15rem;
+  font-size: 1.2rem;
 }
 
 .todo:hover {
