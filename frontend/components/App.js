@@ -12,14 +12,39 @@ export default class App extends React.Component {
   }
 
   fetchAllTodos = () => {
-
+    axios.get(URL)
+      .then(res => {
+        this.setState({
+          ...this.state,
+          todos: res.data.data
+        })
+        console.log(this.state.todos);
+      })
+      .catch(err => {
+        console.log(err)
+      })
   }
 
   componentDidMount() {
-    
+    this.fetchAllTodos()
   }
 
   render() {
-    return null
+    return(
+      <div className="App">
+        <h1>What I have to do today is...</h1>
+        {
+          this.state.todos.map(todo => {
+            return(
+              <ul key={todo.id} id="todos">
+                <li className="todo">
+                {todo.name}
+                </li>
+              </ul>
+            )
+          })
+        }
+      </div>
+    )
   }
 }

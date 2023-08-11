@@ -6,7 +6,6 @@ import './styles/styles.css'
 
 render(
   <React.StrictMode>
-    <h1>Get er' Done!</h1>
     <App />
   </React.StrictMode>
   , document.getElementById('root')
