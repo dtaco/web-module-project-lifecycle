@@ -8,7 +8,8 @@ export default class App extends React.Component {
     super();
     this.state = {
       todos: [],
-      error: ''
+      error: '',
+      todoNameInput: '',
     }
   }
 
@@ -27,6 +28,16 @@ export default class App extends React.Component {
         })
       })
   }
+
+  todoNameChange = evt => {
+    const { value } = evt.target;
+    this.setState({
+      ...this.state,
+      todoNameInput: value
+    })
+    }
+  
+
 
   componentDidMount() {
     this.fetchAllTodos()
@@ -48,6 +59,15 @@ export default class App extends React.Component {
           })
         }
         </ul>
+        <form id="form">
+          <input 
+          placeholder="What else...?"
+          type="text"
+          value={this.state.todoNameInput}
+          onChange={this.todoNameChange}
+          />
+          <input type="submit" />
+        </form>
       </div>
     )
   }
