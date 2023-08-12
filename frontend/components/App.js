@@ -1,6 +1,7 @@
 import React from 'react';
 import axios from 'axios';
 import Form from './Form';
+import TodoList from './TodoList'
 
 const URL = 'http://localhost:9000/api/todos'
 
@@ -94,13 +95,12 @@ export default class App extends React.Component {
 
         <h2>To Do:</h2>
 
-        <ul  id="todos">
-        {this.state.todos.reduce((acc, todo) => {
-          if (this.state.displayCompleted || !todo.completed) return acc.concat(<li onClick={this.toggleCompleted(todo.id)} key={todo.id} className="todo">{todo.name}{todo.completed ? ' ✔️' : ''}</li>   
-          );
-          return acc;
-        }, [])}
-        </ul>
+        <TodoList 
+        todos={this.state.todos}
+        displayCompleted={this.state.displayCompleted}
+        toggleCompleted={this.toggleCompleted}
+        />
+        
         <Form 
           onTodoFormSubmit={this.onTodoFormSubmit}
           todoNameInput={this.state.todoNameInput}
