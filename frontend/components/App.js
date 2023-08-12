@@ -11,6 +11,7 @@ export default class App extends React.Component {
       todos: [],
       error: '',
       todoNameInput: '',
+      displayCompleted: true,
     }
   }
 
@@ -73,6 +74,11 @@ export default class App extends React.Component {
     .catch(this.setAxiosResError)
   }
 
+  toggleDisplayCompleted = () => {
+    this.setState({ ...this.state, displayCompleted: !this.state.displayCompleted })
+  }
+
+
 
   componentDidMount() {
     this.fetchAllTodos()
@@ -88,15 +94,13 @@ export default class App extends React.Component {
         <h2>To Do:</h2>
 
         <ul  id="todos">
-        {this.state.todos.map(todo => {
-            return(
-                <li onClick={this.toggleCompleted(todo.id)} key={todo.id} className="todo">
-                ➕ {todo.name}{todo.completed ? ' ✔️' : ''}
-                </li>               
-            );
-          })
-        }
+        {this.state.todos.reduce((acc, todo) => {
+          if (this.state.displayCompleted || !todo.completed) return acc.concat(<li onClick={this.toggleCompleted(todo.id)} key={todo.id} className="todo">{todo.name}{todo.completed ? ' ✔️' : ''}</li>   
+          );
+          return acc;
+        }, [])}
         </ul>
+
 
         <form id="form" onSubmit={this.onTodoFormSubmit}>
 
@@ -110,6 +114,8 @@ export default class App extends React.Component {
           <input type="submit" />
 
         </form>
+
+        <button onClick={this.toggleDisplayCompleted}>{this.state.displayCompleted ? 'Hide' : 'Show'} Completed</button>
       </div>
     )
   }
